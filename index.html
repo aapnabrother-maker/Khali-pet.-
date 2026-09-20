@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KHALI PET? by Ghosh — Bengali Food</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --red:#c9281d;--red2:#e33a25;--cream:#fff4c9;--card:#fffdf1;
+  --ink:#24180f;--muted:#786b5d;--gold:#f5c744;--line:#ead9a3;
+}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#fff3bd,#fff9df);
+  color:var(--ink);padding-bottom:92px;
+}
+header{
+  background:linear-gradient(145deg,#b91f19,#e43a26);color:#fff;padding:16px 15px 18px;
+  border-radius:0 0 22px 22px;box-shadow:0 4px 15px #b88b63;
+}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand h1{margin:0;font-size:24px;line-height:1.05}
+.brand small{display:block;color:#ffe8a0;font-size:14px;margin-top:4px}
+.location{font-size:13px;margin-top:10px}
+.hero{
+  margin:10px 12px 12px;background:#ffe59a;border:1px solid #e4b94c;border-radius:16px;
+  padding:14px 15px;box-shadow:0 3px 10px #d8c48d;
+}
+.hero b{font-size:19px;color:#8d1b13}.hero p{margin:5px 0 0;font-size:12px;color:#754c28}
+.top{padding:0 12px 10px;position:sticky;top:0;background:#fff3bd;z-index:5}
+.search{
+  width:100%;padding:14px 16px;border:0;border-radius:16px;background:#fffdf3;
+  box-shadow:0 3px 10px #d7c8a3;outline:0;font-size:15px;
+}
+.cat{display:flex;gap:8px;overflow:auto;padding:0 12px 13px;scrollbar-width:none}
+.cat::-webkit-scrollbar{display:none}
+.cat button{
+  white-space:nowrap;border:1.5px solid #c63a28;padding:9px 17px;border-radius:22px;
+  background:#fff8dc;color:#9b2419;font-weight:700;font-size:14px;
+}
+.cat button.active{background:var(--red);color:#fff;border-color:var(--red)}
+.section-title{display:flex;justify-content:space-between;align-items:center;padding:2px 15px 5px}
+.section-title h2{margin:0;font-size:21px}.trend{color:#a52a1f;font-weight:700;font-size:13px}
+#menu{padding:0 8px}
+.card{
+  background:var(--card);margin:10px 4px;padding:10px;border-radius:18px;display:flex;gap:11px;
+  box-shadow:0 3px 12px #dbcda8;border:1px solid #f0dfae;min-height:132px;
+}
+.card img{width:112px;height:112px;object-fit:cover;border-radius:14px;flex:none}
+.info{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start}
+.badge{
+  display:inline-block;background:#fff0cf;color:#a22b1e;padding:3px 7px;border-radius:8px;
+  font-size:10px;font-weight:800;margin-bottom:3px
+}
+.info h3{margin:1px 0 4px;font-size:17px;line-height:1.15}
+.info p.desc{margin:0;color:var(--muted);font-size:12px;line-height:1.35}
+.meta{font-size:11px;color:#65594d;margin-top:5px}
+.price-row{margin-top:auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.price{color:#b41f17!important;font-size:20px!important;font-weight:800;margin:0!important}
+.btn{
+  border:0;border-radius:13px;padding:9px 15px;background:#ffc928;color:#5c2d00;
+  font-weight:800;box-shadow:0 2px 5px #d8bd69;font-size:14px
+}
+.cart{
+  position:fixed;bottom:0;left:0;right:0;background:var(--red);color:white;padding:10px 14px;
+  z-index:10;box-shadow:0 -3px 12px #b9a16d;display:flex;align-items:center;justify-content:space-between;
+}
+.cart-main{font-weight:800}.cart small{display:block;font-weight:normal;font-size:11px;opacity:.9}
+.cart-view{background:#ffd34b;color:#7b210f;border:0;border-radius:18px;padding:10px 17px;font-weight:800}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:20;padding:15px}
+.box{background:#fffdf1;max-width:470px;margin:15px auto;padding:19px;border-radius:20px;max-height:94vh;overflow:auto}
+input,textarea,select{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px;font-size:15px}
+.qr{display:none;text-align:center;background:#fff8e1;padding:14px;border-radius:15px;margin-top:8px}
+.qr img{width:230px;max-width:80%;border-radius:10px}
+.green{width:100%;border:0;border-radius:12px;padding:14px;background:#16a34a;color:#fff;font-weight:bold;font-size:16px;margin-top:10px}
+@media(min-width:700px){body{max-width:650px;margin:auto}.cart{max-width:650px;margin:auto}.top{position:sticky}}
+</style>
+
+<style>
+:root{--red:#e23744;--dark:#171717;--muted:#777;--bg:#f7f7f7;--card:#fff}
+body{background:var(--bg)!important;color:var(--dark)!important}
+.app-shell{max-width:620px;margin:auto;padding-bottom:92px}
+.topbar{position:sticky;top:0;z-index:50;background:#fff;padding:12px 16px 10px;box-shadow:0 2px 12px #00000012}
+.toprow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand-mini{font-weight:900;font-size:22px;color:var(--red)}
+.location-mini{font-size:12px;color:#555}
+.icon-btn{border:0;background:#f5f5f5;border-radius:50%;width:40px;height:40px;font-size:18px}
+.search-pro{margin-top:10px;background:#f3f3f3;border-radius:14px;padding:12px 14px;display:flex;gap:9px;align-items:center}
+.search-pro input{border:0;outline:0;background:transparent;width:100%;font-size:15px}
+.chips{display:flex;gap:9px;overflow:auto;padding:12px 2px}
+.chip{white-space:nowrap;border:1px solid #ddd;background:#fff;border-radius:22px;padding:8px 15px;font-weight:700}
+.chip.active{background:var(--red);color:#fff;border-color:var(--red)}
+.hero-card{margin:4px 0 14px;border-radius:18px;padding:18px;background:linear-gradient(135deg,#fff1d6,#ffe4a8);position:relative;overflow:hidden}
+.hero-card h2{margin:0 0 5px;font-size:22px}.hero-card p{margin:0;color:#6c5b45;font-size:13px}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:15px 2px 10px}
+.section-head h3{margin:0;font-size:19px}
+.food-card{background:#fff;border-radius:18px;padding:10px;margin:10px 0;display:flex;gap:12px;box-shadow:0 2px 10px #0000000c}
+.food-card img{width:118px;height:118px;object-fit:cover;border-radius:14px}
+.food-info{flex:1;min-width:0}.food-info h4{margin:2px 0 5px;font-size:17px}
+.food-info p{margin:0 0 7px;color:#777;font-size:12px;line-height:1.35}
+.rating{font-size:12px;font-weight:800}.price-row{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.price{font-size:18px;font-weight:900}.add-btn{border:1px solid #e23744;background:#fff;color:#e23744;border-radius:10px;padding:7px 16px;font-weight:900}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:60;background:#fff;border-top:1px solid #eee;display:flex;justify-content:center}
+.bottom-nav-inner{max-width:620px;width:100%;display:flex;justify-content:space-around;padding:8px 4px}
+.nav-item{font-size:11px;text-align:center;color:#555}.nav-item b{display:block;font-size:21px;line-height:22px}.nav-item.active{color:var(--red)}
+.cart-float{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;z-index:59;width:min(590px,calc(100% - 24px));background:var(--red);color:#fff;border-radius:14px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 7px 25px #e2374455}
+.cart-float button{border:0;border-radius:10px;padding:9px 14px;font-weight:900;color:var(--red);background:#fff}
+@media(max-width:430px){.food-card img{width:105px;height:105px}.food-info h4{font-size:15px}.app-shell{padding-left:10px;padding-right:10px}}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="topbar">
+    <div class="toprow">
+      <div>
+        <div class="brand-mini">🍛 KHALI PET?</div>
+        <div class="location-mini">by Ghosh • Gossainpur · Bagdogra · Siliguri</div>
+      </div>
+      <button class="icon-btn" type="button" onclick="document.getElementById('checkout')?.scrollIntoView({behavior:'smooth'})">👤</button>
+    </div>
+    <div class="search-pro">🔎 <input id="appSearch" type="search" placeholder="Search for thali, chicken, biryani..." oninput="syncAppSearch(this.value)"></div>
+    <div class="chips">
+      <button class="chip active" onclick="setAppCat(this,'all')">All</button>
+      <button class="chip" onclick="setAppCat(this,'thali')">Thali</button>
+      <button class="chip" onclick="setAppCat(this,'biryani')">Biryani</button>
+      <button class="chip" onclick="setAppCat(this,'veg')">Veg</button>
+      <button class="chip" onclick="setAppCat(this,'nonveg')">Non-Veg</button>
+      <button class="chip" onclick="setAppCat(this,'drinks')">🥤 Drinks</button>
+      <button class="chip" onclick="setAppCat(this,'sweet')">Mishti</button>
+    </div>
+  </div>
+  <div class="hero-card">
+    <h2>খালি পেট — Bengali Comfort Food</h2>
+    <p>Home-style • Freshly cooked • Fast local delivery</p>
+  </div>
+
+<header>
+  <div class="brand">
+    <div><h1>🍛 KHALI PET<br><small>by Ghosh</small></h1></div>
+    <div style="font-size:28px">👤</div>
+  </div>
+  <div class="location">📍 Gossainpur • Bagdogra • Siliguri</div>
+</header>
+<div class="hero">
+  <b>খালি পেট — Bengali Comfort Thali</b>
+  <p>Home-style • Freshly cooked daily • First order offer available</p>
+</div>
+<div class="top"><input id="search" class="search" placeholder="🔎 Search Bengali food..." oninput="searchFood()"></div>
+
+<div class="cat" id="cats">
+<button class="active" onclick="filterCat('all',this)">All</button>
+<button onclick="filterCat('thali',this)">Thali</button>
+<button onclick="filterCat('biryani',this)">Biryani</button>
+<button onclick="filterCat('veg',this)">Veg</button>
+<button onclick="filterCat('nonveg',this)">Non-Veg</button>
+<button onclick="filterCat('sweet',this)">Mishti</button>
+<button onclick="filterCat('drinks',this)">🥤 Drinks</button>
+</div>
+<div class="section-title"><h2>Thali Menu — Popular Now</h2><span class="trend">🔥 Trending</span></div>
+<div id="menu"></div>
+
+<div class="cart" onclick="openCart()">
+  <div><div class="cart-main">🛒 <span id="cartText">Cart Khali Hai</span></div><small>Tap to checkout</small></div>
+  <button class="cart-view" type="button">View Cart →</button>
+</div>
+
+<div class="modal" id="modal"><div class="box">
+<button onclick="closeCart()" style="float:right;border:0;border-radius:50%;padding:8px">✕</button>
+<h2>🛒 Checkout</h2><div id="summary"></div>
+<input id="name" placeholder="Your Name"><input id="phone" placeholder="Phone Number" type="tel">
+<textarea id="address" rows="3" placeholder="Full Delivery Address"></textarea>
+<select id="area" onchange="updateSummary()"><option value="0">Select Delivery Area</option><option value="0">Gossainpur — ₹0</option><option value="20">Bagdogra — ₹20</option><option value="30">Siliguri — ₹30</option></select>
+<select id="payment" onchange="toggleQR()"><option value="cod">💵 Cash on Delivery</option><option value="upi">📲 UPI — FAM</option></select>
+<div class="qr" id="qr"><h3>📲 Pay using FAM UPI</h3><img src="fam-qr.jpg"><p><b>8768946130@fam</b></p><small>Payment করার পরে WhatsApp order submit করুন.</small></div>
+
+<div id="liveTrackingBox" style="margin:12px 0;padding:13px;border-radius:15px;background:#f3f8ff;border:1px solid #c9def7;display:none">
+  <b>📡 Live delivery location</b>
+  <div id="liveTrackingStatus" style="font-size:12px;margin-top:5px;color:#555"></div>
+</div>
+<button class="green" onclick="orderAndStartTracking()">📲 CONFIRM & ORDER ON WHATSAPP</button>
+</div></div>
+
+
+<div class="location-box" style="margin:14px 0;padding:14px;border:2px solid #e33;border-radius:16px;background:#fff8e8;">
+  <div style="font-weight:800;font-size:17px;margin-bottom:6px;">📍 Delivery Location</div>
+  <div id="locStatus" style="font-size:13px;margin-bottom:10px;">Location share করলে আপনার delivery location order-এর সাথে যাবে.</div>
+  <button type="button" onclick="getCustomerLocation()" style="border:0;border-radius:12px;padding:11px 15px;background:#d92323;color:white;font-weight:800;cursor:pointer;">
+    📍 Use My Current Location
+  </button>
+  <a id="mapLink" href="#" target="_blank" style="display:none;margin-left:8px;font-weight:700;">🗺️ View Map</a>
+</div>
+
+<script>
+let customerLocation = null;
+
+function getCustomerLocation(){
+  const status = document.getElementById('locStatus');
+  const link = document.getElementById('mapLink');
+
+  if (!navigator.geolocation) {
+    status.textContent = "❌ এই browser location support করে না.";
+    return;
+  }
+
+  status.textContent = "⏳ Location নেওয়া হচ্ছে...";
+
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      customerLocation = {lat, lon};
+
+      const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+      link.href = mapUrl;
+      link.style.display = "inline-block";
+      status.innerHTML = "✅ Location added — order-এর সাথে যাবে.";
+    },
+    function(err){
+      status.textContent = "❌ Location পাওয়া যায়নি. Browser-এ Location permission Allow করুন.";
+    },
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+  );
+}
+</script>
+<script>
+const foods=[
+["Mini Veg Thali","Rice, dal, aloo bhaja, seasonal sabji, achar","69","thali veg","https://images.unsplash.com/photo-1546833999-b9f581a1996d"],
+["Bengali Veg Thali","Rice, dal, 2 sabji, aloo bhaja, papad, chutney","89","thali veg","https://images.unsplash.com/photo-1601050690597-df0568f70950"],
+["Special Bengali Veg Thali","Rice, dal, 3 sabji, aloo bhaja, paneer, papad, chutney","109","thali veg","https://images.unsplash.com/photo-1547592180-85f173990554"],
+["Egg Thali","Rice, dal, bhaja, sabji, 2 egg curry, papad, chutney","119","thali nonveg","https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f"],
+["Chicken Thali","Rice, dal, bhaja, sabji, chicken 3pc, papad, chutney","149","thali nonveg","https://images.unsplash.com/photo-1603894584373-5ac82b2ae398"],
+["Rohu Fish Thali","Rice, dal, bhaja, sabji, Rohu 1pc, papad, chutney","149","thali nonveg","https://images.unsplash.com/photo-1516684669134-de6cec9b4a8b"],
+["Katla Fish Thali","Rice, dal, bhaja, sabji, Katla 1pc, papad, chutney","169","thali nonveg","https://images.unsplash.com/photo-1516684669134-de6cec9b4a8b"],
+["Mutton Thali","Rice, dal, bhaja, sabji, mutton 2pc, papad, chutney","199","thali nonveg","https://images.unsplash.com/photo-1544025162-d76694265947"],
+["Chingri Thali","Rice, dal, bhaja, sabji, chingri curry, papad","199","thali nonveg","https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7"],
+["Ilish Thali (Seasonal)","Rice, dal, bhaja, seasonal sabji, Ilish curry","399","thali nonveg","https://images.unsplash.com/photo-1515003197210-e0cd71810b5f"],
+["Plain Rice","Steamed rice","50","side veg","https://images.unsplash.com/photo-1512058564366-18510be2db19"],
+["Musur Dal","Bengali masoor dal","40","side veg","https://images.unsplash.com/photo-1546833999-b9f581a1996d"],
+["Cholar Dal","Bengali cholar dal","60","side veg","https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7"],
+["Aloo Bhaja","Crispy Bengali potato fry","40","side veg","https://images.unsplash.com/photo-1518013431117-eb1465fa5752"],
+["Beguni","Begun besan fritter — 2pc","50","side veg","https://images.unsplash.com/photo-1601050690597-df0568f70950"],
+["Aloo Posto","Classic Bengali potato with poppy seeds","70","side veg","https://images.unsplash.com/photo-1546833999-b9f581a1996d"],
+["Sukto","Traditional Bengali mixed vegetable dish","70","side veg","https://images.unsplash.com/photo-1547592180-85f173990554"],
+["Mochar Ghonto","Banana blossom Bengali curry","80","side veg","https://images.unsplash.com/photo-1547592180-85f173990554"],
+["Luchi","Luchi — 4pc","50","side veg","https://images.unsplash.com/photo-1601050690597-df0568f70950"],
+["Alur Dom","Bengali alur dom","70","side veg","https://images.unsplash.com/photo-1518013431117-eb1465fa5752"],
+["Chicken Kosha","Bengali chicken kosha — 2pc","150","side nonveg","https://images.unsplash.com/photo-1603894584373-5ac82b2ae398"],
+["Chicken Jhol","Bengali chicken jhol — 2pc","140","side nonveg","https://images.unsplash.com/photo-1603894584373-5ac82b2ae398"],
+["Mutton Kosha","Bengali mutton kosha — 2pc","190","side nonveg","https://images.unsplash.com/photo-1544025162-d76694265947"],
+["Rui Macher Jhol","Rohu fish curry — 1pc","110","side nonveg","https://images.unsplash.com/photo-1516684669134-de6cec9b4a8b"],
+["Katla Macher Jhol","Katla fish curry — 1pc","125","side nonveg","https://images.unsplash.com/photo-1516684669134-de6cec9b4a8b"],
+["Ilish Bhapa","Ilish cooked Bengali bhapa style — 1pc","220","side nonveg","https://images.unsplash.com/photo-1515003197210-e0cd71810b5f"],
+["Chingri Malai Curry","Bengali prawn malai curry","180","side nonveg","https://images.unsplash.com/photo-1601050690117-94f5f6fa8bd7"],
+["Papad","Crispy papad — 1pc","20","side veg","https://images.unsplash.com/photo-1601050690597-df0568f70950"],
+["Aam/Mishti Chutney","Sweet Bengali chutney","30","side veg","https://images.unsplash.com/photo-1547592180-85f173990554"],
+["Mishti Doi","Bengali sweet yogurt","60","sweet veg","https://images.unsplash.com/photo-1488477181946-6428a0291777"],
+["Rosogolla","Rosogolla — 2pc","40","sweet veg","https://images.unsplash.com/photo-1599785209707-a456fc1337bb"],
+["Gulab Jamun","Gulab jamun — 2pc","40","sweet veg","https://images.unsplash.com/photo-1606313564200-e75d5e30476e"],
+  ["Chicken Biryani","Chicken biryani with salad","159","biryani nonveg","https://images.unsplash.com/photo-1563379091339-03246963d96c"],
+  ["Veg Biryani","Basmati rice, vegetables & spices","119","biryani veg","https://images.unsplash.com/photo-1589302168068-964664d93dc0"],
+  ["Egg Biryani","Biryani with egg & salad","129","biryani nonveg","https://images.unsplash.com/photo-1563379091339-03246963d96c"],
+  ["🥤 Coke / Pepsi / Sprite / Fanta (250ml)","20","Cold & refreshing","drinks veg"],
+  ["🥤 Coke / Pepsi / Sprite / Fanta (500ml)","40","Cold & refreshing","drinks veg"],
+  ["🥤 Thums Up / Mountain Dew (250ml)","20","Cold & refreshing","drinks veg"],
+  ["🥤 Thums Up / Mountain Dew (500ml)","40","Cold & refreshing","drinks veg"],
+  ["💧 Packaged Drinking Water (500ml)","10","Chilled water","drinks veg"],
+  ["💧 Packaged Drinking Water (1L)","20","Chilled water","drinks veg"],
+];
+
+let cart={},activeCat="all";
+function render(list=foods){
+ const m=document.getElementById("menu");m.innerHTML="";
+ list.filter(x=>activeCat==="all"||x[3].split(" ").includes(activeCat)).forEach(x=>{
+  const i=foods.indexOf(x);
+  const isThali=x[3].includes("thali");
+  const isDrink=x[3].includes("drinks");
+  const label=isThali?"THALI":isDrink?"DRINKS":x[3].includes("sweet")?"MISHTI":"BENGALI";
+  m.innerHTML+=`<div class="card">
+    <img src="${x[4]}" loading="lazy" alt="${x[0]}">
+    <div class="info">
+      <span class="badge">${label}</span>
+      <h3>${x[0]}</h3>
+      <p class="desc">${x[1]}</p>
+      <div class="meta">${isThali?"⭐ 4.7 • Popular choice":isDrink?"❄️ Chilled & refreshing":"⭐ Bengali favourite"}</div>
+      <div class="price-row"><p class="price">₹${x[2]}</p><button class="btn" onclick="add(${i})">🛍 Add</button></div>
+    </div>
+  </div>`;
+ });
+}
+function add(i){let x=foods[i];cart[x[0]]=cart[x[0]]||{price:Number(x[2]),qty:0};cart[x[0]].qty++;updateCart()}
+function remove(n){if(!cart[n])return;cart[n].qty--;if(cart[n].qty<=0)delete cart[n];updateCart()}
+function totals(){let s=0,c=0;for(let n in cart){s+=cart[n].price*cart[n].qty;c+=cart[n].qty}return[s,c]}
+function updateCart(){let[s,c]=totals();document.getElementById("cartText").textContent=c?`${c} item(s) added • ₹${s}`:"Cart Khali Hai";updateSummary()}
+function updateSummary(){let[s]=totals(),d=Number(document.getElementById("area")?.value||0),h="";for(let n in cart){let x=cart[n];h+=`<div style="display:flex;justify-content:space-between;margin:9px 0"><b>${n}</b><span><button onclick="remove('${n}')">−</button> ${x.qty} <button onclick="cart['${n}'].qty++;updateCart()">+</button> ₹${x.price*x.qty}</span></div>`}h+=`<hr>Subtotal: ₹${s}<br>Delivery: ₹${d}<h3>Total: ₹${s+d}</h3>`;document.getElementById("summary").innerHTML=h}
+function openCart(){if(!Object.keys(cart).length)return alert("Pehle food add karo 😋");document.getElementById("modal").style.display="block";updateSummary()}
+function closeCart(){document.getElementById("modal").style.display="none"}
+function toggleQR(){document.getElementById("qr").style.display=document.getElementById("payment").value==="upi"?"block":"none"}
+function searchFood(){let q=document.getElementById("search").value.toLowerCase();render(foods.filter(x=>(x[0]+" "+x[1]).toLowerCase().includes(q)))}
+function filterCat(c,btn){activeCat=c;document.querySelectorAll(".cat button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active");searchFood()}
+function orderWhatsApp(){
+ let n=document.getElementById("name").value.trim(),ph=document.getElementById("phone").value.trim(),a=document.getElementById("address").value.trim(),ar=document.getElementById("area"),pay=document.getElementById("payment").value;
+ if(!n||!ph||!a||ar.value==="0")return alert("Name, Phone, Address aur Delivery Area fill/select karo.");
+ let[s]=totals(),d=Number(ar.value),msg="*🍛 NEW ORDER - KHALI PET 🍛*\n\n";
+ for(let i in cart)msg+=`• ${i} x${cart[i].qty} = ₹${cart[i].price*cart[i].qty}\n`;
+ msg+=`\n*Subtotal: ₹${s}*\n*Delivery: ₹${d}*\n*TOTAL: ₹${s+d}*\n\n👤 Name: ${n}\n📞 Phone: ${ph}\n📍 Address: ${a}\n🚚 Area: ${ar.options[ar.selectedIndex].text}\n💳 Payment: ${pay==="upi"?"UPI (FAM)":"Cash on Delivery"}`;
+ if(pay==="upi")msg+="\n📲 UPI ID: 8768946130@fam";
+ 
+if (customerLocation) {
+  msg += `\n📍 Customer Location: https://www.google.com/maps?q=${customerLocation.lat},${customerLocation.lon}`;
+}
+location.href="https://wa.me/918768946130?text="+encodeURIComponent(msg);
+}
+render();
+</script>
+
+  <div class="cart-float" id="appCartFloat">
+    <span>🛒 <b id="floatCartText">Your cart is empty</b></span>
+    <button type="button" onclick="document.getElementById('checkout')?.scrollIntoView({behavior:'smooth'})">View Cart →</button>
+  </div>
+  <div class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <div class="nav-item active" onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>⌂</b>Home</div>
+      <div class="nav-item" onclick="document.getElementById('appSearch')?.focus()"><b>⌕</b>Search</div>
+      <div class="nav-item" onclick="document.getElementById('checkout')?.scrollIntoView({behavior:'smooth'})"><b>🛒</b>Cart</div>
+      <div class="nav-item" onclick="document.getElementById('checkout')?.scrollIntoView({behavior:'smooth'})"><b>📦</b>Orders</div>
+      <div class="nav-item" onclick="document.getElementById('checkout')?.scrollIntoView({behavior:'smooth'})"><b>👤</b>Profile</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function syncAppSearch(v){
+  const q=document.getElementById('search');
+  if(q){q.value=v; q.dispatchEvent(new Event('input',{bubbles:true}));}
+}
+function setAppCat(btn,cat){
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const original=[...document.querySelectorAll('.cat-btn')].find(x=>
+    (cat==='all' && /all/i.test(x.textContent)) ||
+    x.dataset.cat===cat
+  );
+  if(original) original.click();
+  else if(cat==='all'){
+    const all=[...document.querySelectorAll('.cat-btn')].find(x=>/all/i.test(x.textContent));
+    if(all) all.click();
+  }
+}
+function updateFloatingCart(){
+  const text=document.getElementById('floatCartText');
+  if(!text) return;
+  const count=[...document.querySelectorAll('[data-cart-count],.cart-count')].map(x=>parseInt(x.textContent)||0).reduce((a,b)=>a+b,0);
+  text.textContent=count?`${count} item${count>1?'s':''} in cart`:'Your cart is empty';
+}
+setInterval(updateFloatingCart,700);
+</script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+let liveSocket=null, activeOrderId=null, watchId=null;
+
+async function createLiveOrder(){
+  let n=document.getElementById("name").value.trim();
+  let ph=document.getElementById("phone").value.trim();
+  let a=document.getElementById("address").value.trim();
+  let ar=document.getElementById("area"), pay=document.getElementById("payment").value;
+  if(!n||!ph||!a||ar.value==="0") throw new Error("Name, Phone, Address aur Delivery Area fill/select karo.");
+
+  let[s]=totals(), d=Number(ar.value);
+  const items=Object.entries(cart).map(([name,x])=>({name,qty:x.qty,price:x.price}));
+  const res=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({name:n,phone:ph,address:a,area:ar.options[ar.selectedIndex].text,
+      delivery:d,payment:pay==="upi"?"UPI (FAM)":"Cash on Delivery",items,subtotal:s,total:s+d})
+  });
+  if(!res.ok) throw new Error("Order server error");
+  return await res.json();
+}
+
+function startLiveTracking(orderId){
+  activeOrderId=orderId;
+  const box=document.getElementById("liveTrackingBox"), st=document.getElementById("liveTrackingStatus");
+  if(box) box.style.display="block";
+  if(st) st.textContent="Order #"+orderId+" • Live location share করার জন্য permission দিন.";
+
+  liveSocket=io();
+  liveSocket.on("connect",()=>{
+    liveSocket.emit("joinOrder",{orderId});
+    if(navigator.geolocation){
+      watchId=navigator.geolocation.watchPosition(pos=>{
+        const payload={orderId,lat:pos.coords.latitude,lng:pos.coords.longitude,accuracy:pos.coords.accuracy};
+        liveSocket.emit("customerLocation",payload);
+        if(st) st.textContent="Order #"+orderId+" • 📡 Live location sharing ON";
+      },()=>{
+        if(st) st.textContent="Location permission denied. Order চলবে, কিন্তু live location বন্ধ.";
+      },{enableHighAccuracy:true,maximumAge:5000,timeout:15000});
+    }
+  });
+}
+
+async function orderAndStartTracking(){
+  try{
+    const order=await createLiveOrder();
+    startLiveTracking(order.id);
+
+    // Build the existing WhatsApp message, but append the server order ID.
+    let n=document.getElementById("name").value.trim(),ph=document.getElementById("phone").value.trim(),
+        a=document.getElementById("address").value.trim(),ar=document.getElementById("area"),pay=document.getElementById("payment").value;
+    let[s]=totals(),d=Number(ar.value),msg="*🍛 NEW ORDER - KHALI PET 🍛*\\n\\n";
+    for(let i in cart) msg+=`• ${i} x${cart[i].qty} = ₹${cart[i].price*cart[i].qty}\\n`;
+    msg+=`\\n*Subtotal: ₹${s}*\\n*Delivery: ₹${d}*\\n*TOTAL: ₹${s+d}*\\n\\n👤 Name: ${n}\\n📞 Phone: ${ph}\\n📍 Address: ${a}\\n🚚 Area: ${ar.options[ar.selectedIndex].text}\\n💳 Payment: ${pay==="upi"?"UPI (FAM)":"Cash on Delivery"}\\n🆔 Order ID: ${order.id}`;
+    if(pay==="upi") msg+="\\n📲 UPI ID: 8768946130@fam";
+    if(customerLocation) msg+=`\\n📍 Current Location: https://www.google.com/maps?q=${customerLocation.lat},${customerLocation.lon}`;
+    window.open("https://wa.me/918768946130?text="+encodeURIComponent(msg),"_blank");
+    alert("Order #"+order.id+" created. Live location sharing is ON.");
+  }catch(e){ alert(e.message||"Order create হয়নি."); }
+}
+</script>
+</body>
+</html>

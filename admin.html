@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KHALI PET — Admin Live Orders</title>
+<style>
+body{margin:0;font-family:Arial;background:#f6f6f6;color:#222}.wrap{max-width:900px;margin:auto;padding:18px}
+h1{color:#d92323}.toolbar{background:#fff;padding:14px;border-radius:14px;box-shadow:0 2px 10px #0001;display:flex;gap:8px;flex-wrap:wrap}
+input,button{padding:11px;border-radius:9px;border:1px solid #ddd}button{background:#d92323;color:#fff;font-weight:700;border:0}
+.card{background:#fff;margin:12px 0;padding:15px;border-radius:15px;box-shadow:0 2px 10px #0001}.status{font-weight:800}
+.map{display:inline-block;margin-top:8px}.muted{color:#777;font-size:12px}
+</style></head><body><div class="wrap">
+<h1>🍛 KHALI PET Admin</h1>
+<div class="toolbar"><input id="pin" placeholder="Admin PIN" type="password"><button onclick="load()">Load Orders</button><span id="live">● Offline</span></div>
+<div id="orders"></div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+let pin="",socket;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function load(){
+ pin=document.getElementById("pin").value;
+ const r=await fetch("/api/orders?pin="+encodeURIComponent(pin));
+ if(!r.ok)return alert("Wrong PIN");
+ render(await r.json());
+ socket=io();socket.on("connect",()=>{socket.emit("adminJoin",{pin});document.getElementById("live").textContent="● Live"});
+ socket.on("order:new",o=>prepend(o));socket.on("location:update",p=>updateLocation(p));
+}
+function render(list){document.getElementById("orders").innerHTML=list.map(card).join("")}
+function prepend(o){document.getElementById("orders").insertAdjacentHTML("afterbegin",card(o));}
+function card(o){
+ let loc=o.location?`<a class="map" target="_blank" href="https://www.google.com/maps?q=${o.location.lat},${o.location.lng}">📍 Open live location</a><div class="muted">Updated ${esc(o.location.updatedAt)}</div>`:"📍 Waiting for customer location";
+ return `<div class="card" id="o${o.id}"><b>Order #${esc(o.id)}</b> — ${esc(o.createdAt)}<p>👤 ${esc(o.name)} · 📞 ${esc(o.phone)}<br>🏠 ${esc(o.address)}<br>🚚 ${esc(o.area)}</p><p>${o.items.map(i=>esc(i.name)+" × "+i.qty).join("<br>")}</p><b>₹${o.total}</b> · <span class="status">${esc(o.status)}</span><br>${loc}<p><button onclick="setStatus('${o.id}','ACCEPTED')">Accept</button> <button onclick="setStatus('${o.id}','PREPARING')">Preparing</button> <button onclick="setStatus('${o.id}','OUT_FOR_DELIVERY')">Out for delivery</button> <button onclick="setStatus('${o.id}','DELIVERED')">Delivered</button></p></div>`;
+}
+async function setStatus(id,status){
+ await fetch("/api/orders/"+id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({pin,status})});
+ load();
+}
+function updateLocation(p){
+ const el=document.getElementById("o"+p.orderId); if(!el)return;
+ const old=el.querySelector(".map"); if(old){old.href=`https://www.google.com/maps?q=${p.location.lat},${p.location.lng}`; old.nextElementSibling.textContent="Updated "+p.location.updatedAt}
+ else load();
+}
+</script></body></html>
